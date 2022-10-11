@@ -1,15 +1,20 @@
 public class ThreadKlasse extends Thread {
 
     private final Hilfszahl hZ;
+    private Semaphor mutex;
 
-    public ThreadKlasse(String name, Hilfszahl hZ) {
+    public ThreadKlasse(String name, Hilfszahl hZ, Semaphor mutex) {
         super(name);
+        this.mutex = mutex;
         this.hZ = hZ;
+        System.out.println("Wird gestartet: " + getName());
+        start();
     }
 
     public void run() {
-        System.out.println("Wird gestartet: " + getName());
-        synchronized (hZ) {
+        while (true) {
+            mutex.p();
+            //Anweisungen in der kritischen Region
             System.out.println(getName() + " lädt Zahl aus Hilfszahl");
             System.out.println("Geladene Zahl: " + hZ.getZahl());
             //Wert erhöhen
@@ -23,16 +28,10 @@ public class ThreadKlasse extends Thread {
             System.out.println("Neue Zahl: " + increment);
             hZ.setZahl(increment);
             System.out.println("Thread: " + getName() + " hat die Zahl (" + increment + ") zurückgeschrieben");
+            mutex.v();
         }
+
+
     }
 
-    public static void main(String[] args) {
-        Hilfszahl hZ = new Hilfszahl();
-        ThreadKlasse t1 = new ThreadKlasse("Thread 1", hZ);
-        ThreadKlasse t2 = new ThreadKlasse("Thread 2", hZ);
-        ThreadKlasse t3 = new ThreadKlasse("Thread 3", hZ);
-        t1.start();
-        t2.start();
-        t3.start();
-    }
 }
