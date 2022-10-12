@@ -9,19 +9,12 @@ public class ThreadKlasse extends Thread {
 
     public void run() {
         System.out.println("Wird gestartet: " + getName());
-        System.out.println(getName() + " lädt Zahl aus Hilfszahl");
-        System.out.println("Geladene Zahl: " + hZ.getZahl());
-        //Wert erhöhen
-        int increment = hZ.getZahl() + 1;
         try {
             sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Thread: " + getName() + " hat geladene Zahl um eins erhöht.");
-        System.out.println("Neue Zahl: " + increment);
-        hZ.setZahl(increment);
-        System.out.println("Thread: " + getName() + " hat die Zahl (" + increment + ") zurückgeschrieben");
+        hZ.setZahl(getName());
     }
 
 

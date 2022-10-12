@@ -12,7 +12,11 @@ public class Hilfszahl {
     }
 
     //Wert schreiben
-    void setZahl(int zahl) {
-        this.zahl = zahl;
+    public synchronized void setZahl(String name) {
+        System.out.println();
+        System.out.println("Thread: " + name);
+        System.out.println("Zahl vorher: " + zahl);
+        this.zahl++;
+        System.out.println("Zahl nachher: " + zahl);
     }
 }
